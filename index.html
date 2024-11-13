@@ -15,15 +15,33 @@
     />
     <script type="module" src="./src/js/main.js" defer></script>
     <link rel="stylesheet" href="./src/css/styles.css" />
-    <title>Document</title>
+    <title>Desembaralhador de palavras</title>
   </head>
   <body>
     <div id="app">
       <div class="container">
-        <div class="scoreboard">0</div>
-        <div class="word-placeholders"></div>
+        <h1 class="word-heading">Desembaralhador</h1>
+        <div class="word-placeholders-wrapper">
+          <span class="word-placeholders-label">Palavra</span>
+          <div class="scoreboard-wrapper">
+            <span class="scoreboard">0</span>
+            <span class="scoreboard-label">pontos</span>
+          </div>
+          <div class="word-placeholders"></div>
+          <div class="word-tip-text">
+            <strong>Dica:</strong>
+            <span class="word-tip"></span>
+          </div>
+        </div>
         <div class="word-letters"></div>
-        <div class="word-tip"></div>
+        <div class="modal show">
+          <div class="modal-backdrop"></div>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>

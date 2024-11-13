@@ -1,19 +1,20 @@
 :root {
-  --background-primary: #fff;
+  --background-primary: #006bff;
   --background-secondary: #eff2f7;
 
-  --foreground-primary: #0a0a0a;
+  --background-inverse-primary: #ffffff;
 
-  --foreground-inverse-primary: #fafafa;
+  --foreground-primary: #ffffff;
 
-  --card-bg: var(--background-primary);
+  --foreground-inverse-primary: #;
 
-  --correct-color: #157145;
+  --card-bg: var(--accent-yellow);
+
+  --correct-color: #00e978;
   --incorrect-color: #88230d;
 
-  --accent-blue: #2475ce;
-
-  --subtle-blue: #a8cbf0;
+  --accent-yellow: #ffe053;
+  --accent-blue: #006bff;
 }
 
 * {
@@ -26,6 +27,8 @@ html,
 body {
   height: 100%;
   font-family: "Nunito", sans-serif;
+  background-color: var(--background-primary);
+  color: var(--foreground-primary);
 }
 
 #app {
@@ -38,8 +41,40 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 80px;
-  margin-top: 120px;
+  margin-top: 60px;
+  width: 100%;
+}
+
+.word-heading {
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 40px;
+}
+
+.word-placeholders-wrapper {
+  max-width: 800px;
+  height: 420px;
+  width: 100%;
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  position: relative;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.word-placeholders-label {
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 4px 8px;
+  background: var(--background-primary);
 }
 
 .word-placeholders {
@@ -51,13 +86,29 @@ body {
 .word-placeholder {
   width: 80px;
   height: 80px;
-  border: 1px dashed #cecece;
+  border: 1px dashed rgba(255, 255, 255, 0.5);
   border-radius: 12px;
   transition: border-color 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .word-placeholder.highlighted {
-  border-color: var(--accent-blue);
+  border-color: #fff;
+}
+
+.word-placeholder .word-letter {
+  --card-bg: white;
+
+  margin: -1px;
+}
+
+.word-tip-text {
+  font-size: 18px;
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
 }
 
 .word-letters {
@@ -66,6 +117,14 @@ body {
   gap: 8px;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+  min-height: calc(80px * 2 + 8px);
+  height: 250px;
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='white' stroke-width='4' stroke-dasharray='26%2c 16' stroke-dashoffset='8' stroke-linecap='square'/%3e%3c/svg%3e");
+  width: 100%;
+  max-width: 800px;
+  border-radius: 12px;
+  margin-top: 28px;
 }
 
 .word-letter {
@@ -75,8 +134,9 @@ body {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 20px;
-  background-color: var(--background-primary);
+  font-size: 28px;
+  background-color: var(--card-bg);
+  color: var(--accent-blue);
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border-radius: 12px;
   text-transform: uppercase;
@@ -84,13 +144,24 @@ body {
   user-select: none;
   top: 0;
   left: 0;
-  transition: border-color 0.2s ease;
+  transition: background-color 0.2s ease;
   border: 1px solid transparent;
+  font-weight: 700;
 }
 
 .word-letters .word-letter:hover {
-  /* background-color: var(--background-secondary); */
   border: 1px solid var(--subtle-blue);
+}
+
+.scoreboard-wrapper {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  font-size: 20px;
+}
+
+.scoreboard {
+  font-weight: 700;
 }
 
 @keyframes jump {

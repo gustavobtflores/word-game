@@ -1,4 +1,5 @@
 import { getRandomArbitrary } from "../helpers/randomNumber.js";
+import { AlertModal } from "./AlertModal.js";
 import { Scoreboard } from "./Scoreboard.js";
 
 class WordGame {
@@ -11,6 +12,7 @@ class WordGame {
     this.tip = this.container.querySelector(".word-tip");
 
     this.scoreboard = new Scoreboard();
+    this.modal = new AlertModal();
   }
 
   drawRandomWord() {
@@ -30,6 +32,7 @@ class WordGame {
 
     letterEl.classList.add("word-letter");
     letterEl.textContent = letter;
+    letterEl.draggable = false;
 
     this.letters.appendChild(letterEl);
   }
@@ -40,6 +43,8 @@ class WordGame {
       this.renderLetter(letter);
     });
   }
+
+  endGame() {}
 
   correctWord() {
     let score = 0;
@@ -57,6 +62,7 @@ class WordGame {
     });
 
     this.scoreboard.changeBy(score);
+    this.endGame();
   }
 
   verifyWord() {
@@ -135,7 +141,10 @@ class WordGame {
           "mouseup",
           () => {
             if (currentDroppable?.classList.contains("droppable")) {
-              currentDroppable.replaceWith(target);
+              currentDroppable.appendChild(target);
+              currentDroppable.classList.remove("highlighted");
+            } else {
+              this.letters.prepend(target);
             }
 
             target.style = "";
@@ -166,16 +175,19 @@ class WordGame {
     return scrambledWord;
   }
 
-  init() {
+  nextWord() {
     const drewWord = this.drawRandomWord();
 
     this.word = drewWord["word"];
-    this.tip.textContent = "Dica: " + drewWord["tip"];
+    this.tip.textContent = drewWord["tip"];
 
     this.scrambledWord = this.scrambleWord(this.word);
 
     this.renderUiElements(this.scrambledWord);
+  }
 
+  init() {
+    this.nextWord();
     this.attachEventListeners();
   }
 }
