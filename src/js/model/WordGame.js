@@ -1,4 +1,5 @@
 import { getRandomArbitrary } from "../helpers/randomNumber.js";
+import { Scoreboard } from "./Scoreboard.js";
 
 class WordGame {
   constructor(words) {
@@ -8,6 +9,8 @@ class WordGame {
     this.placeholders = this.container.querySelector(".word-placeholders");
     this.letters = this.container.querySelector(".word-letters");
     this.tip = this.container.querySelector(".word-tip");
+
+    this.scoreboard = new Scoreboard();
   }
 
   drawRandomWord() {
@@ -39,15 +42,21 @@ class WordGame {
   }
 
   correctWord() {
+    let score = 0;
+
     this.placeholders.querySelectorAll(".word-letter").forEach((el, idx) => {
       el.style.animationDelay = 150 * idx + "ms";
 
       if (el.textContent.toLowerCase() === this.word[idx].toLowerCase()) {
         el.classList.add("correct");
+        score++;
       } else {
         el.classList.add("incorrect");
+        score--;
       }
     });
+
+    this.scoreboard.changeBy(score);
   }
 
   verifyWord() {
