@@ -1,7 +1,19 @@
 :root {
   --background-primary: #fff;
+  --background-secondary: #eff2f7;
+
+  --foreground-primary: #0a0a0a;
+
+  --foreground-inverse-primary: #fafafa;
 
   --card-bg: var(--background-primary);
+
+  --correct-color: #157145;
+  --incorrect-color: #88230d;
+
+  --accent-blue: #2475ce;
+
+  --subtle-blue: #a8cbf0;
 }
 
 * {
@@ -45,7 +57,7 @@ body {
 }
 
 .word-placeholder.highlighted {
-  border-color: #2475ce;
+  border-color: var(--accent-blue);
 }
 
 .word-letters {
@@ -72,4 +84,41 @@ body {
   user-select: none;
   top: 0;
   left: 0;
+  transition: border-color 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.word-letters .word-letter:hover {
+  /* background-color: var(--background-secondary); */
+  border: 1px solid var(--subtle-blue);
+}
+
+@keyframes jump {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(0, -20%);
+    background: var(--state-color);
+    color: var(--foreground-inverse-primary);
+  }
+
+  100% {
+    transform: translate(0, 0);
+    background: var(--state-color);
+    color: var(--foreground-inverse-primary);
+  }
+}
+
+.word-letter.correct {
+  --state-color: var(--correct-color);
+
+  animation: jump 0.5s forwards;
+}
+
+.word-letter.incorrect {
+  --state-color: var(--incorrect-color);
+
+  animation: jump 0.5s forwards;
 }

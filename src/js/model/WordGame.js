@@ -40,7 +40,9 @@ class WordGame {
 
   correctWord() {
     this.placeholders.querySelectorAll(".word-letter").forEach((el, idx) => {
-      if (el.textContent === this.word[idx]) {
+      el.style.animationDelay = 150 * idx + "ms";
+
+      if (el.textContent.toLowerCase() === this.word[idx].toLowerCase()) {
         el.classList.add("correct");
       } else {
         el.classList.add("incorrect");
@@ -55,7 +57,7 @@ class WordGame {
       userWord += el.textContent;
     });
 
-    if (this.word === userWord.length) {
+    if (this.word.length === userWord.length) {
       this.correctWord();
     }
   }
@@ -117,8 +119,8 @@ class WordGame {
 
         document.addEventListener("mousemove", onMouseMove);
 
-        const controller = new AbortController();
-        const signal = controller.signal;
+        const mouseUpController = new AbortController();
+        const mouseUpSignal = mouseUpController.signal;
 
         document.addEventListener(
           "mouseup",
@@ -130,11 +132,11 @@ class WordGame {
             target.style = "";
 
             document.removeEventListener("mousemove", onMouseMove);
-            controller.abort();
+            mouseUpController.abort();
 
             this.verifyWord();
           },
-          { signal }
+          { signal: mouseUpSignal }
         );
       }
     });
