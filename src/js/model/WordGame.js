@@ -88,6 +88,7 @@ class WordGame {
       const target = e.target.closest(".word-letter");
 
       if (target) {
+        target.classList.add("dragging");
         const shiftX = e.clientX - target.getBoundingClientRect().left;
         const shiftY = e.clientY - target.getBoundingClientRect().top;
 
@@ -95,11 +96,11 @@ class WordGame {
           const positionX = clientX - shiftX + "px";
           const positionY = clientY - shiftY + "px";
 
-          target.style.transform = `translate3d(${positionX}, ${positionY}, 0)`;
+          target.style.left = positionX;
+          target.style.top = positionY;
         }
 
         moveAt(e.clientX, e.clientY);
-
         target.style.position = "absolute";
 
         function leaveDroppable(droppable) {
@@ -152,6 +153,7 @@ class WordGame {
             }
 
             target.style = "";
+            target.classList.remove("dragging");
 
             document.removeEventListener("mousemove", onMouseMove);
             mouseUpController.abort();

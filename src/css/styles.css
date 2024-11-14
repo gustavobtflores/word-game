@@ -1,22 +1,24 @@
 @import "./modal.css";
 
 :root {
-  --background-primary: #006bff;
-  --background-secondary: #eff2f7;
+  --white: #ffffff;
+  --black: #000000;
 
-  --background-inverse-primary: #ffffff;
+  --gray-100: #fafafa;
 
-  --foreground-primary: #ffffff;
-
-  --foreground-inverse-primary: #0a0a0a;
-
-  --card-bg: var(--accent-yellow);
+  --blue-400: #006bff;
 
   --correct-color: #00e978;
   --incorrect-color: #88230d;
 
-  --accent-yellow: #ffe053;
-  --accent-blue: #006bff;
+  --background-primary: var(--gray-100);
+
+  --foreground-primary: var(--black);
+
+  --foreground-inverse-primary: var(--white);
+
+  --border-bounds: rgba(0 0 0 / 0.2);
+  --border-bounds-active: var(--blue-400);
 }
 
 * {
@@ -59,7 +61,7 @@ body {
   max-width: 800px;
   height: 420px;
   width: 100%;
-  border: 2px solid #fff;
+  border: 2px solid var(--border-bounds);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,7 +96,7 @@ body {
   max-width: 80px;
   width: 100%;
   aspect-ratio: 1;
-  border: 1px dashed rgba(255, 255, 255, 0.5);
+  border: 1px dashed var(--border-bounds);
   border-radius: 12px;
   transition: border-color 0.4s ease;
   display: flex;
@@ -103,12 +105,10 @@ body {
 }
 
 .word-placeholder.highlighted {
-  border-color: #fff;
+  border-color: var(--border-bounds-active);
 }
 
 .word-placeholder .word-letter {
-  --card-bg: white;
-
   margin: -1px;
 }
 
@@ -128,7 +128,7 @@ body {
   align-items: center;
   min-height: calc(80px * 2 + 8px);
   height: 250px;
-  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='white' stroke-width='4' stroke-dasharray='26%2c 16' stroke-dashoffset='8' stroke-linecap='square'/%3e%3c/svg%3e");
+  border: 1px dashed var(--border-bounds);
   width: 100%;
   max-width: 800px;
   border-radius: 12px;
@@ -145,22 +145,37 @@ body {
   justify-content: center;
   font-weight: 700;
   font-size: 28px;
-  background-color: var(--card-bg);
+  background-color: var(--background-primary);
   color: var(--accent-blue);
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border: 1px solid var(--border-bounds);
   border-radius: 12px;
   text-transform: uppercase;
   cursor: grab;
   user-select: none;
   top: 0;
   left: 0;
-  transition: background-color 0.2s ease;
-  border: 1px solid transparent;
+  transition: transform 0.4s ease;
   font-weight: 700;
+  position: relative;
 }
 
-.word-letters .word-letter:hover {
-  border: 1px solid var(--subtle-blue);
+.word-letter::after {
+  content: "";
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.word-letter.dragging:hover {
+  transform: scale(1.1);
+}
+
+.word-letter.dragging::after {
+  opacity: 1;
 }
 
 .scoreboard-wrapper {
@@ -182,11 +197,16 @@ body {
   }
 
   10% {
-    transform: translate(0, 10%);
+    transform: translate(0, 0);
     opacity: 1;
   }
 
   50% {
+    transform: translate(0, -20%);
+    opacity: 1;
+  }
+
+  75% {
     transform: translate(0, 0);
     opacity: 1;
   }
@@ -223,8 +243,6 @@ body {
 
 .word-button {
   padding: 12px 16px;
-  background-color: var(--accent-yellow);
-  color: var(--accent-blue);
   border-radius: 12px;
   border: none;
   font-size: 20px;
