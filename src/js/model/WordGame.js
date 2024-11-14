@@ -1,5 +1,4 @@
 import { getRandomArbitrary } from "../helpers/randomNumber.js";
-import { AlertModal } from "./AlertModal.js";
 import { Scoreboard } from "./Scoreboard.js";
 
 class WordGame {
@@ -10,9 +9,9 @@ class WordGame {
     this.placeholders = this.container.querySelector(".word-placeholders");
     this.letters = this.container.querySelector(".word-letters");
     this.tip = this.container.querySelector(".word-tip");
+    this.nextWordEl = this.container.querySelector("#next-word");
 
     this.scoreboard = new Scoreboard();
-    this.modal = new AlertModal();
   }
 
   drawRandomWord() {
@@ -38,13 +37,18 @@ class WordGame {
   }
 
   renderUiElements(word) {
+    this.placeholders.replaceChildren();
+    this.letters.replaceChildren();
+
     word.forEach((letter) => {
       this.renderPlaceholder();
       this.renderLetter(letter);
     });
   }
 
-  endGame() {}
+  endCycle() {
+    this.nextWordEl.classList.add("show");
+  }
 
   correctWord() {
     let score = 0;
@@ -62,7 +66,7 @@ class WordGame {
     });
 
     this.scoreboard.changeBy(score);
-    this.endGame();
+    this.endCycle();
   }
 
   verifyWord() {
@@ -158,6 +162,10 @@ class WordGame {
         );
       }
     });
+
+    this.nextWordEl.addEventListener("click", () => {
+      this.nextWord();
+    });
   }
 
   scrambleWord(word) {
@@ -184,6 +192,8 @@ class WordGame {
     this.scrambledWord = this.scrambleWord(this.word);
 
     this.renderUiElements(this.scrambledWord);
+
+    this.nextWordEl.classList.remove("show");
   }
 
   init() {

@@ -15,7 +15,7 @@
     />
     <script type="module" src="./src/js/main.js" defer></script>
     <link rel="stylesheet" href="./src/css/styles.css" />
-    <title>Desembaralhador de palavras</title>
+    <title>Desembaralhador</title>
   </head>
   <body>
     <div id="app">
@@ -26,22 +26,16 @@
           <div class="scoreboard-wrapper">
             <span class="scoreboard">0</span>
             <span class="scoreboard-label">pontos</span>
+            <div class="scoreboard-ghost"></div>
           </div>
           <div class="word-placeholders"></div>
           <div class="word-tip-text">
             <strong>Dica:</strong>
             <span class="word-tip"></span>
           </div>
+          <button id="next-word" class="word-button">Próxima palavra</button>
         </div>
         <div class="word-letters"></div>
-        <div class="modal show">
-          <div class="modal-backdrop"></div>
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-body"></div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </body>
