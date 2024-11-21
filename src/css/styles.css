@@ -170,8 +170,9 @@ body {
   position: absolute;
 }
 
-.word-letter.dragging:hover {
+.word-letter.dragging {
   transform: scale(1.1);
+  z-index: 10;
 }
 
 .word-letter.dragging::after {
