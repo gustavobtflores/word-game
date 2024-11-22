@@ -51,21 +51,20 @@ class WordGame {
   }
 
   correctWord() {
-    let score = 0;
+    let userWord = "";
 
     this.placeholders.querySelectorAll(".word-letter").forEach((el, idx) => {
       el.style.animationDelay = 150 * idx + "ms";
+      userWord += el.textContent;
 
       if (el.textContent.toLowerCase() === this.word[idx].toLowerCase()) {
         el.classList.add("correct");
-        score++;
       } else {
         el.classList.add("incorrect");
-        score--;
       }
     });
 
-    this.scoreboard.changeBy(score);
+    this.scoreboard.compute(userWord, this.word);
     this.endCycle();
   }
 
@@ -171,15 +170,14 @@ class WordGame {
   }
 
   scrambleWord(word) {
-    const scrambleWord = (word) =>
-      word
-        .split("")
-        .reverse()
-        .sort(() => Math.random() - 0.5);
-    let scrambledWord = scrambleWord(word);
+    const scrambledWord = word.split("");
 
-    while (scrambledWord.join() === word) {
-      scrambledWord = scrambleWord(word);
+    for (let i = scrambledWord.length - 1; i > 1; i--) {
+      const j = getRandomArbitrary(0, i);
+      const aux = scrambledWord[j];
+
+      scrambledWord[j] = scrambledWord[i];
+      scrambledWord[i] = aux;
     }
 
     return scrambledWord;

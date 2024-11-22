@@ -8,6 +8,20 @@ export class Scoreboard {
     this.score = 0;
   }
 
+  compute(expected, received) {
+    let score = 0;
+
+    expected.split("").forEach((letter, idx) => {
+      if (received[idx] === letter) {
+        score++;
+      } else {
+        score--;
+      }
+    });
+
+    this.changeBy(score);
+  }
+
   changeBy(amount) {
     this.score += amount;
     this.scoreboardGhostEl.textContent = "+" + amount;
