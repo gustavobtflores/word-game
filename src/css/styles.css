@@ -76,7 +76,7 @@ body {
   position: absolute;
   top: -20px;
   left: 20px;
-  font-size: 24px;
+  font-size: clamp(18px, 5vw, 24px);
   font-weight: 700;
   text-transform: uppercase;
   display: inline-block;
@@ -113,7 +113,7 @@ body {
 }
 
 .word-tip-text {
-  font-size: 18px;
+  font-size: clamp(14px, 3vw, 18px);
   position: absolute;
   left: 20px;
   bottom: 20px;
@@ -143,10 +143,8 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
   font-size: 28px;
   background-color: var(--background-primary);
-  color: var(--accent-blue);
   border: 1px solid var(--border-bounds);
   border-radius: 12px;
   text-transform: uppercase;
@@ -183,7 +181,7 @@ body {
   position: absolute;
   right: 16px;
   top: 16px;
-  font-size: 20px;
+  font-size: clamp(16px, 4vw, 20px);
 }
 
 .scoreboard,
@@ -294,4 +292,10 @@ body {
   --state-color: var(--incorrect-color);
 
   animation: jump 0.5s forwards;
+}
+
+@media screen and (max-width: 420px) {
+  .word-letters .word-letter {
+    max-width: 60px;
+  }
 }

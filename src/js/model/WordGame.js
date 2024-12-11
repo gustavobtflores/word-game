@@ -1,5 +1,7 @@
 import { getRandomArbitrary } from "../helpers/randomNumber.js";
+import { shuffle } from "../helpers/shuffle.js";
 import { Scoreboard } from "./Scoreboard.js";
+import { DragDrop } from "./DragDrop.js";
 
 class WordGame {
   constructor(words) {
@@ -81,87 +83,8 @@ class WordGame {
   }
 
   attachEventListeners() {
-    let currentDroppable = null;
-
-    this.container.addEventListener("mousedown", (e) => {
-      const target = e.target.closest(".word-letter");
-
-      if (target) {
-        target.classList.add("dragging");
-        const shiftX = e.clientX - target.getBoundingClientRect().left;
-        const shiftY = e.clientY - target.getBoundingClientRect().top;
-
-        function moveAt(clientX, clientY) {
-          const positionX = clientX - shiftX + "px";
-          const positionY = clientY - shiftY + "px";
-
-          target.style.left = positionX;
-          target.style.top = positionY;
-        }
-
-        moveAt(e.clientX, e.clientY);
-        target.style.position = "absolute";
-
-        function leaveDroppable(droppable) {
-          droppable.classList.remove("highlighted");
-        }
-
-        function enterDroppable(droppable) {
-          droppable.classList.add("highlighted");
-        }
-
-        function onMouseMove(e) {
-          if (target) {
-            moveAt(e.clientX, e.clientY);
-
-            target.style.pointerEvents = "none";
-            let elBelow = document.elementFromPoint(e.clientX, e.clientY);
-            target.style.pointerEvents = "initial";
-
-            if (!elBelow) return;
-
-            let droppableBelow = elBelow.closest(".droppable");
-
-            if (currentDroppable != droppableBelow) {
-              if (currentDroppable) {
-                leaveDroppable(currentDroppable);
-              }
-
-              currentDroppable = droppableBelow;
-
-              if (currentDroppable) {
-                enterDroppable(currentDroppable);
-              }
-            }
-          }
-        }
-
-        document.addEventListener("mousemove", onMouseMove);
-
-        const mouseUpController = new AbortController();
-        const mouseUpSignal = mouseUpController.signal;
-
-        document.addEventListener(
-          "mouseup",
-          () => {
-            if (currentDroppable?.classList.contains("droppable")) {
-              currentDroppable.appendChild(target);
-              currentDroppable.classList.remove("highlighted");
-            } else {
-              this.letters.prepend(target);
-            }
-
-            target.style = "";
-            target.classList.remove("dragging");
-
-            document.removeEventListener("mousemove", onMouseMove);
-            mouseUpController.abort();
-
-            this.verifyWord();
-          },
-          { signal: mouseUpSignal }
-        );
-      }
+    this.dragDrop = new DragDrop(this.container, () => {
+      this.verifyWord();
     });
 
     this.nextWordEl.addEventListener("click", () => {
@@ -172,15 +95,7 @@ class WordGame {
   scrambleWord(word) {
     const scrambledWord = word.split("");
 
-    for (let i = scrambledWord.length - 1; i > 1; i--) {
-      const j = getRandomArbitrary(0, i);
-      const aux = scrambledWord[j];
-
-      scrambledWord[j] = scrambledWord[i];
-      scrambledWord[i] = aux;
-    }
-
-    return scrambledWord;
+    return shuffle(scrambledWord);
   }
 
   nextWord() {
